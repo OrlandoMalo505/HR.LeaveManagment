@@ -1,5 +1,4 @@
-﻿using HR.LeaveManagement.Application.DTOs.Common;
-using HR.LeaveManagement.Application.DTOs.LeaveType;
+﻿using HR.LeaveManagement.Application.DTOs.LeaveType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.DTOs.LeaveAllocation
 {
-    public class CreateLeaveAllocationDTO : ILeaveAllocationDTO
+    public interface ILeaveAllocationDTO
     {
         public int NumberOfDays { get; set; }
         public int LeaveTypeId { get; set; }
