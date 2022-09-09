@@ -64,7 +64,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Command
             catch (Exception ex)
             {
 
-                throw;
+                //
             }
 
             return response;
