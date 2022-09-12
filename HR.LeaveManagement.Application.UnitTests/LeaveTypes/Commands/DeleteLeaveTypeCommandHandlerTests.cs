@@ -33,14 +33,24 @@ namespace HR.LeaveManagement.Application.UnitTests.LeaveTypes.Commands
         [Fact]
         public async Task DeleteLeaveType_WithExistingLeaveType_ReturnNoContent()
         {
-            var leaveType = new LeaveType {Id = 1, DefaultDays = 10, Name = "Test Delete" };
-
+ 
             var handler = new DeleteLeaveTypeCommandHandler(_mockRepo.Object, _mapper);
 
-            var result = await handler.Handle(new DeleteLeaveTypeCommand { Id = leaveType.Id}, CancellationToken.None);
+            var result = await handler.Handle(new DeleteLeaveTypeCommand { Id = 3}, CancellationToken.None);
 
             result.ShouldBeOfType<Unit>();
    
+        }
+
+        [Fact]
+        public async Task DeleteLeaveType_WithNoExistingLeaveType_ReturnsNotFound()
+        {
+            var handler = new DeleteLeaveTypeCommandHandler(_mockRepo.Object, _mapper);
+
+            NotFoundException ex = await Should.ThrowAsync<NotFoundException>(
+                async () => await handler.Handle(new DeleteLeaveTypeCommand { Id = 1 }, CancellationToken.None));
+
+            ex.ShouldNotBeNull();
         }
 
     }
