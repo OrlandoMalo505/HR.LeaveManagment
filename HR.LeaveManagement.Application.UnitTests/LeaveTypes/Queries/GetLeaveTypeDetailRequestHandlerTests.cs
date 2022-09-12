@@ -34,7 +34,7 @@ namespace HR.LeaveManagement.Application.UnitTests.LeaveTypes.Queries
         {
             var handler = new GetLeaveTypeDetailRequestHandler(_mockRepo.Object, _mapper);
 
-            var result = await handler.Handle(new GetLeaveTypeDetailRequest {Id = new Random().Next(10) }, CancellationToken.None);
+            var result = await handler.Handle(new GetLeaveTypeDetailRequest {Id = 3 }, CancellationToken.None);
 
             result.ShouldBeOfType<LeaveTypeDTO>();
             result.ShouldNotBeNull();
