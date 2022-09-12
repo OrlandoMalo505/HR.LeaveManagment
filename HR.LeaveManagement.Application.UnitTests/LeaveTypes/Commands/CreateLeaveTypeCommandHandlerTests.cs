@@ -5,7 +5,7 @@ using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands;
 using HR.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
 using HR.LeaveManagement.Application.Profiles;
-using HR.LeaveManagement.Application.UnitTests.Mocks;
+using HR.LeaveManagement.Application.UnitTests.Mock;
 using Moq;
 using Shouldly;
 using System;
