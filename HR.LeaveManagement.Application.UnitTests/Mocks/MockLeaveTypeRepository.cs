@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HR.LeaveManagement.Application.UnitTests.Mocks
+namespace HR.LeaveManagement.Application.UnitTests.Mock
 {
     public static class MockLeaveTypeRepository
     { 
@@ -29,15 +29,25 @@ namespace HR.LeaveManagement.Application.UnitTests.Mocks
                 }
             };
 
+            var leaveType = new LeaveType
+            {
+                Id= 3,
+                DefaultDays= 1,
+                Name = "Test"
+            };
+
             var mockRepo = new Mock<ILeaveTypeRepository>();
 
             mockRepo.Setup(r => r.GetAll()).ReturnsAsync(leaveTypes);
+
+            mockRepo.Setup(r => r.Get(It.IsAny<int>())).ReturnsAsync(leaveType);
 
             mockRepo.Setup(r => r.Add(It.IsAny<LeaveType>())).ReturnsAsync((LeaveType leaveType) =>
             {
                 leaveTypes.Add(leaveType);
                 return leaveType;
             });
+
 
             return mockRepo;
         }
