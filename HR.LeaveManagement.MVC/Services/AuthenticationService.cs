@@ -1,4 +1,6 @@
-﻿using HR.LeaveManagement.MVC.Contracts;
+﻿using AutoMapper;
+using HR.LeaveManagement.MVC.Contracts;
+using HR.LeaveManagement.MVC.Models;
 using HR.LeaveManagement.MVC.Services.Base;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,11 +16,13 @@ namespace HR.LeaveManagement.MVC.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private JwtSecurityTokenHandler _tokenHandler;
+        private IMapper _mapper;
 
-        public AuthenticationService(ILocalStorageService localStorage, IClient client, IHttpContextAccessor httpContextAccessor) : base(localStorage, client)
+        public AuthenticationService(ILocalStorageService localStorage, IClient client, IHttpContextAccessor httpContextAccessor, IMapper mapper) : base(localStorage, client)
         {
             _httpContextAccessor = httpContextAccessor;
             _tokenHandler = new JwtSecurityTokenHandler();  
+            _mapper = mapper;
         }
 
         public async Task<bool> Authenticate(string email, string password)
@@ -54,14 +58,15 @@ namespace HR.LeaveManagement.MVC.Services
             await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task<bool> Register(string firstName, string lastName, string userName, string email, string password)
+        public async Task<bool> Register(RegisterVM registration)
         {
-            RegistrationRequest registrationRequest = new() { FirstName = firstName, LastName = lastName, UserName = userName, Email = email, Password = password };
+            RegistrationRequest registrationRequest = _mapper.Map<RegistrationRequest>(registration);
 
             var response = await _client.RegisterAsync(registrationRequest);
 
             if (!string.IsNullOrEmpty(response.UserId))
             {
+                await Authenticate(registration.Email, registration.Password);
                 return true;
             }
 
