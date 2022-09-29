@@ -62,7 +62,7 @@ namespace HR.LeaveManagement.MVC.Services
         {
             RegistrationRequest registrationRequest = _mapper.Map<RegistrationRequest>(registration);
 
-            var response = await _client.RegisterAsync(registrationRequest);
+            var response = await _client.RegisterAsync(registrationRequest, CancellationToken.None);
 
             if (!string.IsNullOrEmpty(response.UserId))
             {
