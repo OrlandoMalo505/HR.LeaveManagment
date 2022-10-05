@@ -6,6 +6,7 @@ using HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands;
 using HR.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
 using HR.LeaveManagement.Application.Profiles;
 using HR.LeaveManagement.Application.UnitTests.Mock;
+using HR.LeaveManagement.Application.UnitTests.Mocks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -21,12 +22,12 @@ namespace HR.LeaveManagement.Application.UnitTests.LeaveTypes.Commands
 {
     public class UpdateLeaveTypeCommandHandlerTests
     {
-        private readonly Mock<ILeaveTypeRepository> _mockRepo;
+        private readonly Mock<IUnitOfWork> _mockUow;
         private readonly IMapper _mapper;
         private readonly LeaveTypeDTO _leaveTypeDTO;
         public UpdateLeaveTypeCommandHandlerTests()
         {
-            _mockRepo = MockLeaveTypeRepository.GetLeaveTypeRepository();
+            _mockUow = MockUnitOfWork.GetUnitOfWork();
 
             var mapperConfig = new MapperConfiguration(m => m.AddProfile<MappingProfile>());
             _mapper = new Mapper(mapperConfig);
@@ -42,7 +43,7 @@ namespace HR.LeaveManagement.Application.UnitTests.LeaveTypes.Commands
         [Fact]
         public async Task Update_Valid_LeaveType_ReturnNoContent()
         {
-            var handler = new UpdateLeaveTypeCommandHandler(_mockRepo.Object, _mapper);
+            var handler = new UpdateLeaveTypeCommandHandler(_mockUow.Object, _mapper);
 
             var result = await handler.Handle(new UpdateLeaveTypeCommand { LeaveTypeDTO = _leaveTypeDTO }, CancellationToken.None);
 
@@ -54,7 +55,7 @@ namespace HR.LeaveManagement.Application.UnitTests.LeaveTypes.Commands
         {
             _leaveTypeDTO.DefaultDays = -1;
 
-            var handler = new UpdateLeaveTypeCommandHandler(_mockRepo.Object, _mapper);
+            var handler = new UpdateLeaveTypeCommandHandler(_mockUow.Object, _mapper);
 
             ValidationException ex = await Should.ThrowAsync<ValidationException>(
                 async () => await handler.Handle(new UpdateLeaveTypeCommand() { LeaveTypeDTO = _leaveTypeDTO }, CancellationToken.None));
