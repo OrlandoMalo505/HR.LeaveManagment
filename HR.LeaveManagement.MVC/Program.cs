@@ -1,4 +1,5 @@
 using HR.LeaveManagement.MVC.Contracts;
+using HR.LeaveManagement.MVC.Middleware;
 using HR.LeaveManagement.MVC.Services;
 using HR.LeaveManagement.MVC.Services.Base;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -29,6 +30,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
 app.UseCookiePolicy();
 app.UseAuthentication();
 
@@ -36,6 +38,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseMiddleware<RequestMiddleware>();
 
 app.UseAuthorization();
 
