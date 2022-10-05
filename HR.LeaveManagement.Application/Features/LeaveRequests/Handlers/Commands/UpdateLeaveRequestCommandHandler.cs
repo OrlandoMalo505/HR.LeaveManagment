@@ -25,6 +25,8 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Command
         public async Task<Unit> Handle(UpdateLeaveRequestCommand request, CancellationToken cancellationToken)
         {
             var leaveRequest = await _unitOfWork.LeaveRequestRepository.Get(request.Id);
+            if (leaveRequest == null)
+                throw new NotFoundException(nameof(leaveRequest), request.UpdateLeaveRequestDTO.Id);
             if(request.UpdateLeaveRequestDTO != null)
             {
                 var validator = new UpdateLeaveRequestDTOValidator(_unitOfWork.LeaveTypeRepository);
