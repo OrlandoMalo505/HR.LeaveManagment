@@ -53,5 +53,34 @@ namespace HR.LeaveManagement.MVC.Controllers
 
             return View(leaveRequest);
         }
+
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Index()
+        {
+            var model = await _leaveRequestService.GetAdminLeaveRequestList();
+            return View(model);
+        }
+
+        public async Task<ActionResult> Details(int id)
+        {
+            var model = await _leaveRequestService.GetLeaveRequest(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> ApproveRequest(int id, bool approved)
+        {
+            try
+            {
+                await _leaveRequestService.ApproveLeaveRequest(id, approved);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
     }
 }

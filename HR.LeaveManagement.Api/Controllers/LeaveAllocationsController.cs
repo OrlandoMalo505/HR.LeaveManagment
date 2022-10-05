@@ -21,9 +21,9 @@ namespace HR.LeaveManagement.Api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<LeaveAllocationDTO>>> Get()
+        public async Task<ActionResult<List<LeaveAllocationDTO>>> Get(bool isLoggedInUser = false)
         {
-            var query = new GetLeaveAllocationListRequest();
+            var query = new GetLeaveAllocationListRequest() { IsLoggedInUser = isLoggedInUser};
             var leaveAllocations = await _mediator.Send(query);
             return Ok(leaveAllocations);
         }

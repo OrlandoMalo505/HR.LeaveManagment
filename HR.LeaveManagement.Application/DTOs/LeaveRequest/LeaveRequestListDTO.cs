@@ -1,5 +1,6 @@
 ﻿using HR.LeaveManagement.Application.DTOs.Common;
 using HR.LeaveManagement.Application.DTOs.LeaveType;
+using HR.LeaveManagement.Application.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,12 @@ namespace HR.LeaveManagement.Application.DTOs.LeaveRequest
 {
     public class LeaveRequestListDTO : BaseDTO
     {
+        public Employee Employee { get; set; }
+        public string RequestingEmployeeId { get; set; }
         public LeaveTypeDTO LeaveTypeDTO { get; set; }
         public DateTime DateRequested { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public bool? Approved { get; set; }
     }
 }
