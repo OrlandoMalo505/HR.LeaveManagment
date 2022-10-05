@@ -31,6 +31,8 @@ namespace HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
                 throw new ValidationException(validationResult);
 
             var leaveType = await _unitOfWork.LeaveTypeRepository.Get(request.LeaveTypeDTO.Id);
+            if (leaveType is null)
+                throw new NotFoundException(nameof(leaveType), request.LeaveTypeDTO.Id);
             
             _mapper.Map(request.LeaveTypeDTO, leaveType);
 
