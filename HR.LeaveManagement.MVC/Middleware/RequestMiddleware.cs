@@ -42,7 +42,7 @@ namespace HR.LeaveManagement.MVC.Middleware
                         var expiration = tokenContent.ValidTo;
                         if (expiration < DateTime.Now)
                         {
-                            tokenIsValid = false;
+                            tokenIsValid = true;
                         }
                     }
 
