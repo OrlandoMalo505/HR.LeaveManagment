@@ -18,11 +18,11 @@ namespace HR.LeaveManagement.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login(LoginVM login, string returnUrl)
+        public async Task<ActionResult> Login(LoginVM login)
         {
             if (ModelState.IsValid)
             {
-                returnUrl ??= Url.Content("~/");
+                string returnUrl = Url.Content("~/");
 
                 var isLoggedIn = await _authService.Authenticate(login.Email, login.Password);
                 if (isLoggedIn)

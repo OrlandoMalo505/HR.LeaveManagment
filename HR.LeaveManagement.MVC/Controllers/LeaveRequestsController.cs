@@ -37,15 +37,15 @@ namespace HR.LeaveManagement.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateLeaveRequestVM leaveRequest)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 var response = await _leaveRequestService.CreateLeaveRequest(leaveRequest);
                 if (response.Success)
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                ModelState.AddModelError("", response.ValidationErrors);
-            }
+                //ModelState.AddModelError("", response.ValidationErrors);
+            //}
 
             var leaveTypes = await _leaveTypeService.GetLeaveTypes();
             var leaveTypeItems = new SelectList(leaveTypes, "Id", "Name");

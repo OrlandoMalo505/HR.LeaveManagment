@@ -24,14 +24,13 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Command
     public class CreateLeaveRequestCommandHandler : IRequestHandler<CreateLeaveRequestCommand, BaseCommandResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateLeaveRequestCommandHandler(IMapper mapper, IEmailSender emailSender, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+        public CreateLeaveRequestCommandHandler(IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _emailSender = emailSender;
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
         }
@@ -74,24 +73,24 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Command
                 response.Message = "Creation Successful";
                 response.Id = leaveRequest.Id;
 
-                var emailAddress = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+                //var emailAddress = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
 
-                var email = new Email
-                {
-                    To = emailAddress,
-                    Subject = "Leave Request Submitted",
-                    Body = $@"Your leave request for {request.CreateLeaveRequestDTO.StartDate:D} to {request.CreateLeaveRequestDTO.EndDate:D} has been submitted successfully"
-                };
+                //var email = new Email
+                //{
+                //    To = emailAddress,
+                //    Subject = "Leave Request Submitted",
+                //    Body = $@"Your leave request for {request.CreateLeaveRequestDTO.StartDate:D} to {request.CreateLeaveRequestDTO.EndDate:D} has been submitted successfully"
+                //};
 
-                try
-                {
-                    await _emailSender.SendEmail(email);
-                }
-                catch (Exception ex)
-                {
+                //try
+                //{
+                //    await _emailSender.SendEmail(email);
+                //}
+                //catch (Exception ex)
+                //{
 
-                    //
-                } 
+                //    //
+                //} 
             }
  
             return response;
